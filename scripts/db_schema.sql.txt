@@ -1,0 +1,58 @@
+CREATE SCHEMA crm
+
+CREATE TABLE IF NOT EXISTS customer(
+    id serial PRIMARY KEY,
+    created_at      timestamp with time zone default now() not null,
+    created_by varchar(255) not null,
+    updated_at      timestamp with time zone,
+    updated_by varchar(255),
+    first_name varchar(255) not null,
+    last_name varchar(255),
+    gender varchar(255),
+    email varchar unique not null,
+    phone varchar unique not null,
+    source varchar(255),
+    status varchar not null,	
+    has_orders boolean not null,
+    active boolean,
+    account_id int
+);
+
+
+ALTER TABLE customer ADD COLUMN active boolean; 
+
+ALTER TABLE customer ADD COLUMN source varchar; 
+
+ALTER TABLE customer ADD COLUMN created_by varchar(255); 
+ALTER TABLE customer ADD COLUMN updated_by varchar(255); 
+
+ALTER TABLE customer ADD COLUMN account_id int;
+
+ALTER TABLE customer ADD CONSTRAINT account_id_fk FOREIGN KEY (account_id) REFERENCES account (id); 
+
+
+CREATE TABLE IF NOT EXISTS account(
+    id serial PRIMARY KEY,
+    created_at      timestamp with time zone default now() not null,
+    created_by varchar(255) not null,
+    updated_at      timestamp with time zone,
+    updated_by varchar(255),
+    type varchar(255) not null,
+    first_name varchar(255) not null,
+    last_name varchar(255),
+    source varchar(255),
+    gender varchar(255),
+    email varchar unique not null,
+    phone varchar unique not null,
+    billing_address1 varchar(255),
+    billing_address2 varchar(255),
+    city varchar(255),
+    zipcode varchar(255),
+    state varchar(255),
+    country varchar(255),
+    status varchar not null,
+    active boolean
+);
+
+
+ALTER TABLE customer ADD CONSTRAINT account_id_fk FOREIGN KEY (account_id) REFERENCES account (id); 

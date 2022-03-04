@@ -1,0 +1,21 @@
+version: "3.9"
+services:
+   crm_db:
+      container_name: crm_db
+      image: postgres
+      environment:
+         POSTGRES_USER: crmuser
+         POSTGRES_PASSWORD: crmuser123
+         POSTGRES_DB: crm_app
+      ports:
+         - "5432:5432"
+   app:
+      container_name: app_container
+      image: gnanaprakash/crm-app 
+      environment:
+         POSTGRES_DB_SERVER: crm_db
+      ports:
+         - "80:8080"
+      depends_on:
+         - "crm_db"   
+   

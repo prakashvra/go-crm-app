@@ -1,0 +1,19 @@
+Connecting to Postgres running on the host from container
+
+
+https://docs.docker.com/desktop/mac/networking/
+
+Open postgresql.conf
+
+vi /usr/local/var/postgresql@13/postgresql.conf
+
+Change 
+
+listen_addresses = '*'
+
+Restart postgresql
+
+brew services restart postgresql@13
+
+In the app, update the postgresql connection string with hostname as 'host.docker.internal'
+This name resolves to the internal host IP address. 

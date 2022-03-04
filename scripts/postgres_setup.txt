@@ -1,0 +1,166 @@
+==> Successfully started `postgresql@13` (label: homebrew.mxcl.postgresql@13)
+gnanaprakashvr@Gnanaprakashs-MacBook-Pro SoftwareTools % postgresql@13 -V                 
+zsh: command not found: postgresql@13
+gnanaprakashvr@Gnanaprakashs-MacBook-Pro SoftwareTools % postgres -V
+postgres (PostgreSQL) 13.5
+gnanaprakashvr@Gnanaprakashs-MacBook-Pro SoftwareTools % psql postgres
+psql (13.5)
+Type "help" for help.
+
+postgres=# \du
+                                      List of roles
+   Role name    |                         Attributes                         | Member of 
+----------------+------------------------------------------------------------+-----------
+ gnanaprakashvr | Superuser, Create role, Create DB, Replication, Bypass RLS | {}
+
+postgres=# \du
+                                      List of roles
+   Role name    |                         Attributes                         | Member of 
+----------------+------------------------------------------------------------+-----------
+ gnanaprakashvr | Superuser, Create role, Create DB, Replication, Bypass RLS | {}
+
+postgres=# create role crmuser with login password 'crmuser123'
+postgres-# \du
+                                      List of roles
+   Role name    |                         Attributes                         | Member of 
+----------------+------------------------------------------------------------+-----------
+ gnanaprakashvr | Superuser, Create role, Create DB, Replication, Bypass RLS | {}
+
+postgres-# \du
+                                      List of roles
+   Role name    |                         Attributes                         | Member of 
+----------------+------------------------------------------------------------+-----------
+ gnanaprakashvr | Superuser, Create role, Create DB, Replication, Bypass RLS | {}
+
+postgres-# create role crmuser with login password 'crmuser123';
+ERROR:  syntax error at or near "create"
+LINE 2: create role crmuser with login password 'crmuser123';
+        ^
+postgres=# create role crmuser with login password 'crmuser123'
+postgres-# \du
+                                      List of roles
+   Role name    |                         Attributes                         | Member of 
+----------------+------------------------------------------------------------+-----------
+ gnanaprakashvr | Superuser, Create role, Create DB, Replication, Bypass RLS | {}
+
+postgres-# exit
+Use \q to quit.
+postgres-# \q
+gnanaprakashvr@Gnanaprakashs-MacBook-Pro SoftwareTools % psql postgres
+psql (13.5)
+Type "help" for help.
+
+postgres=# \du
+                                      List of roles
+   Role name    |                         Attributes                         | Member of 
+----------------+------------------------------------------------------------+-----------
+ gnanaprakashvr | Superuser, Create role, Create DB, Replication, Bypass RLS | {}
+
+postgres=# CREATE ROLE crmuser WITH LOGIN PASSWORD 'crmuser123';
+CREATE ROLE
+postgres=# \du
+                                      List of roles
+   Role name    |                         Attributes                         | Member of 
+----------------+------------------------------------------------------------+-----------
+ crmuser        |                                                            | {}
+ gnanaprakashvr | Superuser, Create role, Create DB, Replication, Bypass RLS | {}
+
+postgres=# ALTER ROLE crmuser CREATEDB;
+ALTER ROLE
+postgres=# \du
+                                      List of roles
+   Role name    |                         Attributes                         | Member of 
+----------------+------------------------------------------------------------+-----------
+ crmuser        | Create DB                                                  | {}
+ gnanaprakashvr | Superuser, Create role, Create DB, Replication, Bypass RLS | {}
+
+postgres=# \q
+gnanaprakashvr@Gnanaprakashs-MacBook-Pro SoftwareTools % psql postgres -U crmuser
+psql (13.5)
+Type "help" for help.
+
+postgres=> CREATE DATABASE crm_app;
+CREATE DATABASE
+postgres=> GRANT ALL PRIVILEGES ON DATABASE crm_app TO crmuser;
+GRANT
+postgres=> \list
+                                      List of databases
+   Name    |     Owner      | Encoding | Collate | Ctype |         Access privileges         
+-----------+----------------+----------+---------+-------+-----------------------------------
+ crm_app   | crmuser        | UTF8     | C       | C     | =Tc/crmuser                      +
+           |                |          |         |       | crmuser=CTc/crmuser
+ postgres  | gnanaprakashvr | UTF8     | C       | C     | 
+ template0 | gnanaprakashvr | UTF8     | C       | C     | =c/gnanaprakashvr                +
+           |                |          |         |       | gnanaprakashvr=CTc/gnanaprakashvr
+ template1 | gnanaprakashvr | UTF8     | C       | C     | =c/gnanaprakashvr                +
+           |                |          |         |       | gnanaprakashvr=CTc/gnanaprakashvr
+(4 rows)
+
+postgres=> \connect crm_app
+You are now connected to database "crm_app" as user "crmuser".
+crm_app=> \list
+                                      List of databases
+   Name    |     Owner      | Encoding | Collate | Ctype |         Access privileges         
+-----------+----------------+----------+---------+-------+-----------------------------------
+ crm_app   | crmuser        | UTF8     | C       | C     | =Tc/crmuser                      +
+           |                |          |         |       | crmuser=CTc/crmuser
+ postgres  | gnanaprakashvr | UTF8     | C       | C     | 
+ template0 | gnanaprakashvr | UTF8     | C       | C     | =c/gnanaprakashvr                +
+           |                |          |         |       | gnanaprakashvr=CTc/gnanaprakashvr
+ template1 | gnanaprakashvr | UTF8     | C       | C     | =c/gnanaprakashvr                +
+           |                |          |         |       | gnanaprakashvr=CTc/gnanaprakashvr
+(4 rows)
+
+crm_app=> \dt
+Did not find any relations.
+crm_app=> \q
+gnanaprakashvr@Gnanaprakashs-MacBook-Pro SoftwareTools % psql postgres -U crmuser
+psql (13.5)
+Type "help" for help.
+
+postgres=> \dt
+Did not find any relations.
+postgres=> \du
+                                      List of roles
+   Role name    |                         Attributes                         | Member of 
+----------------+------------------------------------------------------------+-----------
+ crmuser        | Create DB                                                  | {}
+ gnanaprakashvr | Superuser, Create role, Create DB, Replication, Bypass RLS | {}
+
+postgres=> connect crm_app
+postgres-> \dt
+Did not find any relations.
+postgres-> CREATE TABLE IF NOT EXISTS "customer"(
+    id serial PRIMARY KEY,
+    created_at      timestamp with time zone default now() not null,
+    updated_at      timestamp with time zone,
+    first_name varchar(255) not null,
+    last_name varchar(255),
+    gender varchar(255),
+    email varchar unique not null,
+    phone varchar unique not null,
+    status varchar not null,    
+    has_orders boolean not null
+);
+ERROR:  syntax error at or near "connect"
+LINE 1: connect crm_app
+        ^
+postgres=> CREATE TABLE IF NOT EXISTS "customer"(
+    id serial PRIMARY KEY,
+    created_at      timestamp with time zone default now() not null,
+    updated_at      timestamp with time zone,
+    first_name varchar(255) not null,
+    last_name varchar(255),
+    gender varchar(255),
+    email varchar unique not null,
+    phone varchar unique not null,
+    status varchar not null,    
+    has_orders boolean not null
+);
+CREATE TABLE
+postgres=> \dt
+          List of relations
+ Schema |   Name   | Type  |  Owner  
+--------+----------+-------+---------
+ public | customer | table | crmuser
+(1 row)

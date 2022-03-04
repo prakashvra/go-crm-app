@@ -1,0 +1,6 @@
+CRM CRUD app docker setup
+
+docker build -t gnanaprakash/crm-app -f docker/Dockerfile .
+
+
+docker run  -p80:8080 gnanaprakash/crm-app

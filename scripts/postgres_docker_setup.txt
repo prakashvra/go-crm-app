@@ -1,0 +1,42 @@
+Postgres Docker Setup
+
+Create a docker-compose.yml with the db services
+
+version: "3.9"
+services:
+   db:
+      container_name: pg_container
+      image: postgres
+      environment:
+         POSTGRES_USER: crmuser
+         POSTGRES_PASSWORD: crmuser123
+         POSTGRES_DB: crm_app
+      ports:
+         - "5432:5432"
+
+
+Connect to Postgres db running in docker container
+
+docker exec -it pg_container bash
+
+psql --host=pg_container --dbname=crm_app --username=crmuser
+
+
+Adding volumes to retain the schema and data created in Postgres
+
+version: "3.9"
+services:
+   crm_db:
+      container_name: crm_db
+      image: postgres
+      environment:
+         POSTGRES_USER: crmuser
+         POSTGRES_PASSWORD: crmuser123
+         POSTGRES_DB: crm_app
+      ports:
+         - "5432:5432"
+      volumes:
+         - crm_data:/var/lib/postgresql/data
+
+volumes:
+   crm_data:

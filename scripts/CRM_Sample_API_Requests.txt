@@ -1,0 +1,9 @@
+curl http://localhost:8080/v1/api/status
+
+curl http://localhost:8080/v1/api/customers
+
+curl http://localhost:8080/v1/api/customer \
+    --include \
+    --header "Content-Type: application/json" \
+    --request "POST" \
+    --data '{"firstName" : "John","lastName" : "Smith","email" : "jsmith@myemail.com","phone" : "1234567890"}'
